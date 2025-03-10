@@ -1,3 +1,4 @@
-theme: jekyll-theme-minimal
+theme: minima
 title: Cai's Blog
-description: Computer Architecture, Artificial Intelligence and Other Interesting Things.
+author: 蔡天昊 (Cai Tianhao)
+description: Computer Architecture, Artificial Intelligence and other interesting things.
