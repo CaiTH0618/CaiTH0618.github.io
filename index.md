@@ -1,5 +1,5 @@
 ---
-title: Cai's Blog
+title: Home
 ---
 
 Content in index.md
