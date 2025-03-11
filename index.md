@@ -4,7 +4,9 @@ title: Home
 ---
 
 $$
+\Huge \\
 \Huge \text{Welcome and Have a Nice Day}
+\Huge \\
 $$
 
 link to Test Page 1 [Test Page 1](TestSubDir/TestPage1.md).
