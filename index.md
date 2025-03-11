@@ -1,3 +1,7 @@
+---
+title: Cai's Blog
+---
+
 Content in index.md
 
 ### Computer Architecture, Artificial Intelligence and other interesting things.
