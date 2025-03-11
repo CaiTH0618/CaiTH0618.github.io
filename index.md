@@ -1,10 +1,10 @@
 ---
-layout: home
+layout: page
 title: Home
 ---
 
 $$
-\Huge \text{**Welcome. Have a nice day.**}
+\Huge \text{Welcome and Have a Nice Day}
 $$
 
 link to Test Page 1 [Test Page 1](TestSubDir/TestPage1.md).
