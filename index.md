@@ -1,7 +1,3 @@
----
-title: Home
----
-
 Content in index.md
 
 ### Computer Architecture, Artificial Intelligence and other interesting things.
