@@ -2,10 +2,9 @@
 title: Home
 ---
 
-### Welcome to Cai's blog.
-
-* **Author** : 蔡天昊 (Cai Tianhao)
-* **Update** : 2025/03/11
+$$
+\Huge \text{**Welcome. Have a nice day.**}
+$$
 
 link to Test Page 1 [Test Page 1](TestSubDir/TestPage1.md).
 
