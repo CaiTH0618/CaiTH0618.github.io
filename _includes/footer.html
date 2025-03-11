@@ -26,6 +26,13 @@
           {%- endif %}
         </ul>
       {%- endif %}
+        
+      {%- if site.update %}
+        <ul class="update">
+          <li class="update-date">{{ site.update | escape }}</li>
+        </ul>
+      {%- endif %}
+        
       </div>
       <div class="footer-col">
         <p>{{ site.description | escape }}</p>
