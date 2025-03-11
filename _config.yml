@@ -1,5 +1,8 @@
-# theme: minima
 remote_theme: jekyll/minima
+
 title: Cai's Blog
-author: 蔡天昊 (Cai Tianhao)
+author: 
+  name: 蔡天昊 (Cai Tianhao)
+  email: caith1234@163.com
+  
 description: Computer Architecture, Artificial Intelligence and other interesting things.
