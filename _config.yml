@@ -1,4 +1,4 @@
-remote_theme: jekyll/minima
+theme: minima
 
 title: Cai's Blog
 author: 
@@ -6,3 +6,22 @@ author:
   email: caith1234@163.com
   
 description: Computer Architecture, Artificial Intelligence and other interesting things.
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
