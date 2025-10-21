@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Backpropagation | Cai’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Backpropagation" />
+<meta name="author" content="蔡天昊 (Cai Tianhao)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Life &amp; Computer Science" />
+<meta property="og:description" content="Life &amp; Computer Science" />
+<link rel="canonical" href="http://localhost:4000/ai_framework/backprop.html" />
+<meta property="og:url" content="http://localhost:4000/ai_framework/backprop.html" />
+<meta property="og:site_name" content="Cai’s Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Backpropagation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"蔡天昊 (Cai Tianhao)"},"description":"Life &amp; Computer Science","headline":"Backpropagation","url":"http://localhost:4000/ai_framework/backprop.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Cai&apos;s Blog" /><!-- MathJax configuration -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head><body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Cai&#39;s Blog</a>
+
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Backpropagation</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="the-basic-idea-of-training">The Basic Idea of Training</h2>
+
+<p>During neural network training, we hope to iteratively update the parameters/weights of an NN so that it can gradually turn into a function that has the expected mapping between input and output.</p>
+
+<p>In order to update the parameters of an NN, we have to compute the gradient of the loss $l$ with respect to a parameter $\theta$, which is</p>
+
+\[\frac{\partial l}{\partial \theta}\]
+
+<p>Having the gradients, we can update all the parameters through an update function:</p>
+
+\[\theta' = \text{UPDATE}(\theta, \frac{\partial l}{\partial \theta})\]
+
+<h2 id="the-math-behind-it">The Math Behind It</h2>
+
+<p>Say $f$ is an operator in an NN, expressed as</p>
+
+\[y = f(x)\]
+
+<p>where $x$ and $y$ are general representations for the input tensors and output tensors of this operator (for easier reading). Given an input to the NN, during forward propagation, we obtain the values of $x$ (derived from the computation of previous operators) and $y$ (through the computation of $f$). We also obtain the value of the loss $l$ after the loss computation at the end.</p>
+
+<p>Assuming that we already have the gradients for $y$, we can compute the gradients for $x$ using the chain rule:</p>
+
+\[\frac{\partial l}{\partial x} = \frac{\partial l}{\partial y} \cdot \frac{\partial y}{\partial x}\]
+
+<p>This means that we can compute the gradient for every parameter of the NN from the output layer back to the input layer (from tail to head), hence the name “backpropagation”.</p>
+
+<h2 id="how-ai-frameworks-implement-it">How AI Frameworks Implement It</h2>
+
+<p>Mathematically, we need a Jacobian matrix composed of all the partial derivatives $\partial y_j / \partial x_i$. However, AI frameworks don’t compute full Jacobian matrices because it would be computationally expensive and memory-intensive. Instead, they rely on manual implementation of a backward function for each operator that efficiently computes only the needed gradients.</p>
+
+<p>Take PyTorch as an example. It requires developers to write a backward function, which takes as input the gradients of the output, and outputs the gradients of the input.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WARNING: AI generated code
+</span><span class="k">class</span> <span class="nc">Mul</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c1"># Save inputs for backward pass
+</span>        <span class="n">ctx</span><span class="p">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+    
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="c1"># Retrieve saved inputs
+</span>        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">saved_tensors</span>
+        <span class="c1"># Apply chain rule
+</span>        <span class="k">return</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>In TensorFlow, custom gradients are defined using the <code class="language-plaintext highlighter-rouge">@tf.custom_gradient</code> decorator:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WARNING: AI generated code
+</span><span class="o">@</span><span class="n">tf</span><span class="p">.</span><span class="n">custom_gradient</span>
+<span class="k">def</span> <span class="nf">mul_op</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># Forward pass
+</span>    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+    
+    <span class="k">def</span> <span class="nf">grad</span><span class="p">(</span><span class="n">grad_out</span><span class="p">):</span>
+        <span class="c1"># Backward pass: apply chain rule
+</span>        <span class="k">return</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">a</span>
+    
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">grad</span>
+</code></pre></div></div>
+
+<p>In JAX, custom gradients are implemented using <code class="language-plaintext highlighter-rouge">jax.custom_vjp</code> (vector-Jacobian product):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># WARNING: AI generated code
+</span><span class="o">@</span><span class="n">jax</span><span class="p">.</span><span class="n">custom_vjp</span>
+<span class="k">def</span> <span class="nf">mul_op</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># Forward pass
+</span>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="k">def</span> <span class="nf">mul_fwd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># Forward pass with saved values for backward
+</span>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">mul_bwd</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+    <span class="c1"># Backward pass
+</span>    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">residuals</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">grad_out</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+
+<span class="c1"># Register the forward and backward functions
+</span><span class="n">mul_op</span><span class="p">.</span><span class="n">defvjp</span><span class="p">(</span><span class="n">mul_fwd</span><span class="p">,</span> <span class="n">mul_bwd</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>All three frameworks follow the same principle: they avoid computing full Jacobian matrices by implementing efficient backward functions that directly compute the required gradients using the chain rule.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        
+<!--         <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+              />
+            </svg><span>Subscribe</span>
+          </a>
+        </p> -->
+        <ul class="contact-list">
+          <li class="p-name">蔡天昊 (Cai Tianhao)</li>
+          <li><a class="u-email" href="mailto:caith1234@163.com">caith1234@163.com</a></li>
+        </ul>
+        
+      </div>
+      <div class="footer-col">
+        <p>Life &amp; Computer Science</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

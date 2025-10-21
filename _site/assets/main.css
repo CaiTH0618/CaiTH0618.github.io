@@ -194,3 +194,9 @@ table td { border: 1px solid #e8e8e8; }
 .highlight .vg { color: #008080; }
 .highlight .vi { color: #008080; }
 .highlight .il { color: #099; }
+
+pre, code { font-family: 'Consolas', 'Fira Code', 'Monaco', 'Courier New', monospace !important; font-size: 14px; }
+
+code { font-size: 14px; }
+
+pre { font-size: 13px; line-height: 1.4; }
