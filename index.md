@@ -11,16 +11,16 @@ $$
 
 <br/>
 
-# Quick Check
+# Pinned
 
-[Learn about Backpropagation.](ai_framework/backprop.md)
+[PowerShell Tricks](windows/powershell.md)
+
+[Learn about Backpropagation](ai_framework/backprop.md)
 
 # Index
 
-[Coffee](coffee/index.md)
-
 [AI Framework](ai_framework/index.md)
 
-<!-- link to Test Page 1 [Test Page 1](TestSubDir/TestPage1.md). -->
+[Coffee](coffee/index.md)
 
-<!-- link to Test Page 2 [Test Page 2](TestSubDir/SubDir2/TestPage2.md). -->
+[Windows Tricks](windows/index.md)
