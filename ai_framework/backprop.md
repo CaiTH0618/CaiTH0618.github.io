@@ -99,3 +99,7 @@ mul_op.defvjp(mul_fwd, mul_bwd)
 ```
 
 All three frameworks follow the same principle: they avoid computing full Jacobian matrices by implementing efficient backward functions that directly compute the required gradients using the chain rule.
+
+However, frameworks will automatically compute gradients for operators that are implemented by composing the framework's differentiable primitives (for example, `add`, `mul`, `sin`). The framework records the computation (graph or trace) during the forward pass and applies the chain rule to produce the backward pass.
+
+The automatic gradients only work when the implementation uses the framework's differentiable ops and is visible to its tracer/tape. If you use raw non‑differentiable code (e.g., plain NumPy), integer-only operations, destructive in‑place updates, or custom low‑level kernels/primitives, you may need to register or implement an explicit backward/grad/VJP for correct gradients. Higher‑order derivatives and some advanced control‑flow patterns can also require extra care.
