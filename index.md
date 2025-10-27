@@ -20,3 +20,5 @@ $$
 [AI Framework](ai_framework/index.md)
 
 [Coffee](coffee/index.md)
+
+[Shortcuts & Commands](shortcuts_commands/index.md)
