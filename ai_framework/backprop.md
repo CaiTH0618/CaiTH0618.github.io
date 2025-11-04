@@ -3,6 +3,8 @@ layout: page
 title: Backpropagation
 ---
 
+Update: 2025-11-04
+
 ## The Basic Idea of Training
 
 During neural network training, we hope to iteratively update the parameters/weights of an NN so that it can gradually turn into a function that has the expected mapping between input and output. 
