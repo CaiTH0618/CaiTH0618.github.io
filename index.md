@@ -13,7 +13,7 @@ $$
 
 # Pinned
 
-[Learn about Backpropagation](ai_framework/backprop.md)
+[tmux](shortcuts_commands/tmux.md)
 
 # Index
 
